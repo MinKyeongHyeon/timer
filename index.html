@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>weniv timer</title>
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="background">
+      <h1><img src="./assets/Group.svg" alt="" aria-readonly="weniv" /></h1>
+      <section class="container">
+        <div class="timerName">
+          <h2>TIMER</h2>
+        </div>
+        <fieldset>
+          <div class="timerContainer">
+            <div class="hrs timerCard">
+              <label for="hrs">HRS</label>
+              <input type="number" name="hrs" id="hrs" value="00" />
+            </div>
+            <img src="./assets/dot.png" alt="" />
+            <div class="min timerCard">
+              <label for="min">MIN</label>
+              <input type="number" name="min" id="min" value="00" />
+            </div>
+            <img src="./assets/dot.png" alt="" />
+            <div class="sec timerCard">
+              <label for="sec">SEC</label>
+              <input type="number" name="sec" id="sec" value="00" />
+            </div>
+          </div>
+          <div class="buttonContainer">
+            <button type="button" class="start">start</button>
+            <button type="button" class="reset">reset</button>
+            <button type="button" class="pause">pause</button>
+          </div>
+        </fieldset>
+      </section>
+      <small>WENIV CORP.</small>
+    </div>
+    <script>
+      const hrsInput = document.querySelector("#hrs");
+      const minInput = document.querySelector("#min");
+      const secInput = document.querySelector("#sec");
+      const start = document.querySelector(".start");
+      const reset = document.querySelector(".reset");
+      const pause = document.querySelector(".pause");
+      let timer;
+      let total = 0;
+
+      function renderNumber() {
+        if (total === 0) {
+          alert("끝났지롱!");
+          clearInterval(timer);
+          hrsInput.value = "00";
+          minInput.value = "00";
+          secInput.value = "00";
+        } else {
+          total = total - 1;
+          hrsInput.value = String(Math.floor(total / 3600)).padStart(2, "0");
+          minInput.value = String(Math.floor((total % 3600) / 60)).padStart(
+            2,
+            "0"
+          );
+          secInput.value = String(total % 60).padStart(2, "0");
+        }
+      }
+
+      function countSec() {
+        total =
+          Number(hrsInput.value) * 3600 +
+          Number(minInput.value) * 60 +
+          Number(secInput.value);
+        timer = setInterval(renderNumber, 1000);
+      }
+
+      function clearSec() {
+        if (timer) clearInterval(timer);
+        hrsInput.value = "00";
+        minInput.value = "00";
+        secInput.value = "00";
+      }
+
+      function pauseSec() {
+        clearInterval(timer);
+      }
+      start.addEventListener("click", countSec);
+      reset.addEventListener("click", clearSec);
+      pause.addEventListener("click", pauseSec);
+    </script>
+  </body>
+</html>
